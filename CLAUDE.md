@@ -61,6 +61,27 @@ Environment setup: copy `.env.example` to `.env` and optionally add `ANTHROPIC_A
 - SQLite + Prisma stores users and projects (schema at `prisma/schema.prisma`)
 - Anonymous users get a localStorage-tracked session (`src/lib/anon-work-tracker.ts`); their work is migrated to their account on sign-up
 
+### Server Actions vs API Routes
+
+- `src/actions/` — Next.js server actions for project CRUD (used client-side via `"use server"`)
+- `src/app/api/` — API routes; only `/api/chat` handles AI streaming; `/api/projects` and `/api/filesystem` are JWT-protected by `src/middleware.ts`
+
+### Preview Entry Point
+
+The iframe always renders from `App.jsx` at the root of the virtual FS. Generated components should be imported there.
+
+### Tailwind
+
+Tailwind CSS v4 — no `tailwind.config.js`. Customization is done via CSS custom properties in the global stylesheet.
+
+### Model
+
+The Anthropic model is set as `MODEL` at the top of `src/lib/provider.ts`. Default is `claude-haiku-4-5`.
+
+### Tests
+
+Tests live in `__tests__/` subdirectories co-located with the code they test (e.g. `src/lib/__tests__/`, `src/components/chat/__tests__/`).
+
 ### Path Alias
 
 `@/*` maps to `src/*` throughout the project.
